@@ -25,7 +25,7 @@ class App extends Component {
     const id = this.refs.idSelect.value ? `/${this.refs.idSelect.value}` : ''
     const query = this.refs.querySelect.value ?  `?${this.refs.querySelect.value}=${this.refs.citySelect.value}` : ''
     const subTable = this.refs.subTableSelect.value ? `/beers` : ''
-    returnedURL = 'http://localhost:3000' + url + id + query + subTable
+    returnedURL = 'http://colorado-brews.herokuapp.com' + url + id + query + subTable
     this.setState({error: '', result: [], requestVerb, returnedURL, requestBody, responseStatus: ''})
   }
 
@@ -42,7 +42,6 @@ class App extends Component {
           body: this.state.requestBody
         })
       }
-      console.log('response:', response)
       const result = await response.json()
       this.setState({responseStatus: response.status, result})
     } catch (error) {
