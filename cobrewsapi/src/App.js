@@ -6,12 +6,13 @@ class App extends Component {
   constructor () {
     super();
     this.state = {
-      returnedURL: 'url',
-      requestVerb: 'verb',
+      returnedURL: '',
+      requestVerb: 'GET',
       error: '',
       requestBody: '',
       result: [],
-      responseStatus: ''
+      responseStatus: '',
+      help: false
     }
   }
 
@@ -49,19 +50,32 @@ class App extends Component {
     }
   }
 
+  displayHelp = () => {
+    this.setState({help: !this.state.help})
+  }
+
   render() {
+    let { help } = this.state;
     return (
       <div className="App">
         <header>
-          <h1>CO Brews Database</h1>
+          <h1>CO Brews API</h1>
+          <a href="https://github.com/lorynmason/BYOB/blob/master/README.md"><h3 className="bottom-header">API Documentation</h3></a>
+          <p onClick={this.displayHelp} className="help-btn">Help</p>
         </header>
         <div>
-          <h2>API Documentation</h2>
-          <p>Put info about the api here</p>
+          <p className="app-description">
+            CO Breweries is an API that provides data about breweries in Denver and the beers 
+            that they carry. Users can add data to the API through POST requests, 
+            delete data with DELETE requests, and edit data with PUT and PATCH requests.
+          </p>
         </div>
         <main>
-          <section>URL Builder
+          <section className="url-builder">
+            <h3 className="url-builder-label">URL Builder</h3>
+            {help ? 'This section is for you to select the HTTP verb along with the available API path, the two available paths either will select data from the breweries database or the beers database.' : null}
             <form onSubmit={this.handleSubmit}>
+              <label className="top-dropdown">Endpoint Selection: </label>
               <select className='verb-select' ref='verbSelect'>
                 <option value='GET'>GET</option>
                 <option value='POST'>POST</option>
@@ -73,56 +87,58 @@ class App extends Component {
                 <option value='/api/breweries'>/api/breweries</option>
                 <option value='/api/beers'>/api/beers</option>
               </select>
-              <div>
-                <label>This city field is required if POST/PUT/PATCH is selected, Enter text in JSON format with required parameters.</label>
+              <div className="json-container">
+                <label className="json-label">Required for POST/PUT/PATCH: </label>
                 <textarea rows="8" columns="100" placeholder="Enter JSON formated object here" ref="textAreaSelect"></textarea>
               </div>
               <div>
-                <label>This id selector field is optional</label>
-                <input className='id' placeholder='Enter none or a number between 1-30' name='id' type='number' ref='idSelect'/>
+                <label>ID: </label>
+                <input className='id' placeholder='Optional' name='id' type='number' ref='idSelect'/>
               </div>
-              <div>
-                <label>This query field is optional</label>
+              <div className="query-sel-div">
+                <label>Query Selector: </label>
                 <select className='query-select' ref='querySelect'>
-                  <option value='' disabled selected>none</option>
+                  <option value='' disabled selected>Optional</option>
                   <option value='city'>city</option>
                 </select>
               </div>
               <div>
-                <label>This city field is required if query field is selected</label>
-                <input className='city-name' placeholder='Enter city in CO' name='cityName' type='text' ref='citySelect'/>
+                <label>City: </label>
+                <input className='city-name' placeholder='Optional' name='cityName' type='text' ref='citySelect'/>
               </div>
               <div>
-                <label>This field is optional, if used do not enter query or city</label>
+                <p>{help ? 'This section will only fetch data successfully if the GET beers endpoint is selected with a valid associated brewery id:' : null}</p>
+                <label>Beers by brewery id selector: </label>
                 <select className='table-select' ref='subTableSelect'>
                   <option value='' disabled selected>none</option>
                   <option value='beers'>beers</option>
                 </select>
               </div>
-              <button>Submit</button>
+              <button className="submit-btn">Submit</button>
             </form>
           </section>
-          <section>Returned URL
-            <div className='displayURL'>
-              {this.state.returnedURL}
-            </div>
-            <button onClick={this.fetchEndpoint}>Get this endpoint</button>
-            <button className='resetURL'>Reselect a URL to search</button>
-          </section>
           <section>
-            <p className="response-status">Response Status: {this.state.responseStatus}</p>
-            <div className='responseObject'>
-              Response:
-              {this.state.result.length ? this.state.result.map(i => {
-                return <p key={i.name}>{JSON.stringify(i)}</p>
-              }) : null}
+            <div className='returned-url-container'>
+              <div className="returned-url-div">
+                <p className="returned-url">Generated URL: {this.state.returnedURL}</p>
+              </div>
             </div>
-            <div>
-              {this.state.error ? this.state.error.message : null}
+            <button className="send-btn" onClick={this.fetchEndpoint}>SEND</button>
+            <button className='reset-btn'>RESET</button>
+          </section>
+          <section className="response-container">
+            <div className="response-div">
+              <h2 className="response-label">Response:</h2>
+              <p className="response-status">Status Code: {this.state.responseStatus}</p>
+                {this.state.result.length ? this.state.result.map(i => {
+                  return <p key={i.name} className="response-p">{JSON.stringify(i)}</p>
+                }) : null}
+              <div>
+                {this.state.error ? this.state.error.message : null}
+              </div>
             </div>
           </section>
         </main>
-
       </div>
     );
   }

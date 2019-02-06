@@ -1,32 +1,260 @@
-.App {
+@import url('https://fonts.googleapis.com/css?family=Chivo|Prompt|Ubuntu');
+
+body {
+  background-color: #1b0f10;
+  color: #e2dad1;
   text-align: center;
+  font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+  font-size: 2.2vw;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  overflow: hidden;
+  padding-top: 150px;
+}
+
+header {
+  padding-bottom: -30px;
+  background-color: #caac8e;
+  color: black;
+  text-shadow: 1px 1px 2px white;
+  position: fixed;
+  top: 0px;
+  border-top: 20px solid white;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  width: 100%;
+  box-shadow: 0px 2px 8px white;
+}
+
+header h1 {
+  margin: 12px auto 0px auto;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  transition-duration: 0.3s;
+}
+
+a:hover {
   color: white;
+  transition-duration: 0.3s;
+  transform: scale(1.05);
 }
 
-.App-link {
-  color: #61dafb;
+.bottom-header {
+  margin: 0 0 10px 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.help-btn {
+  position: absolute;
+  left: 94%;
+  top: 57%;
+  font-size: 1.5vw;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.help-btn:hover {
+  color: white;
+  transition-duration: 0.3s;
+  transform: scale(1.1);
+}
+
+.help-btn:active {
+  color: red;
+  transform: scale(0.8);
+}
+
+.app-description {
+  width: 75%;
+  margin: 15px auto 25px auto;
+  font-size: 1.5vw;
+  color: white;
+  text-shadow: none;
+  border: 2px solid white;
+  padding: 25px 5%;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px #6e5e4d;
+  transition-duration: 0.3s;
+}
+
+.app-description:hover {
+  box-shadow: 3px 3px 5px white;
+  transition-duration: 0.3s;
+}
+
+.url-builder {
+  border: 2px solid white;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px #6e5e4d;
+  transition-duration: 0.3s;
+}
+
+.url-builder:hover {
+  box-shadow: 3px 3px 5px white;
+  transition-duration: 0.3s;
+}
+
+.url-builder-label {
+  margin-top: 10px;
+}
+
+select {
+  transition-duration: 0.3s;
+}
+
+select,
+textarea,
+input {
+  border: 4px solid rgb(110, 69, 69);
+  border-radius: 5px;
+  transition-duration: 0.3s;
+}
+
+select:hover,
+textarea:hover,
+input:hover {
+  border-color: white;
+  transition-duration: 0.3s;
+}
+
+input {
+  margin: 10px;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  outline-color: red;
+}
+
+.verb-select, 
+.url-select {
+  font-size: 2vw;
+  margin: 0 5px 30px 5px;
+}
+
+.json-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.json-label {
+  max-width: 35%;
+  margin-top: -15px;
+}
+
+textarea {
+  display: block;
+  margin: 8px 0 20px 10px;
+  min-width: 30%;
+  height: 1em;
+  padding: 5px 0 5px 10px;
+  transition: all 0.5s ease;
+  border: 4px solid rgb(110, 69, 69);
+}
+
+textarea:focus {
+  height: 10em;
+}
+
+.query-sel-div {
+  margin: 10px 0 15px 0;
+}
+
+.submit-btn,
+.send-btn,
+.reset-btn {
+  margin: 30px;
+  height: 30px;
+  width: 200px;
+  border: 4px solid rgb(110, 69, 69);
+  border-radius: 10px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  font-weight: bold;
+}
+
+.submit-btn:hover,
+.reset-btn:hover,
+.send-btn:hover {
+  transition-duration: 0.3s;
+  border-color: white;
+  transform: scale(1.1);
+}
+
+.submit-btn:active,
+.reset-btn:active,
+.send-btn:active {
+  border-color: red;
+  transform: scale(1.07);
+  transition-duration: 0s;
+}
+
+.submit-btn:focus {
+  outline: none;
+}
+
+.returned-url-container {
+  margin-top: 10px;
+}
+
+.send-btn,
+.reset-btn {
+  margin: 0 5px;
+}
+
+.send-btn:focus,
+.reset-btn:focus {
+  outline: none;
+}
+
+.response-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  margin-top: 25px;
+}
+
+.response-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid white;
+  width: 90%;
+  min-height: 450px;
+  word-wrap: break-word;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px #6e5e4d;
+  transition-duration: 0.3s;
+}
+
+.response-div:hover {
+  box-shadow: 3px 3px 5px white;
+  transition-duration: 0.3s;
+}
+
+.response-status {
+  margin-top: -20px;
+}
+
+.response-p {
+  font-size: 1.5vw;
+  width: 90%;
+  text-shadow: none;
+  color: #ecdac9;
 }
