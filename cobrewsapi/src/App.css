@@ -173,7 +173,8 @@ textarea:focus {
 
 .submit-btn,
 .send-btn,
-.reset-btn {
+.reset-btn,
+.demo-btn {
   margin: 30px;
   height: 30px;
   width: 200px;
@@ -186,7 +187,8 @@ textarea:focus {
 
 .submit-btn:hover,
 .reset-btn:hover,
-.send-btn:hover {
+.send-btn:hover,
+.demo-btn:hover {
   transition-duration: 0.3s;
   border-color: white;
   transform: scale(1.1);
@@ -194,7 +196,8 @@ textarea:focus {
 
 .submit-btn:active,
 .reset-btn:active,
-.send-btn:active {
+.send-btn:active,
+.demo-btn:active {
   border-color: red;
   transform: scale(1.07);
   transition-duration: 0s;
@@ -257,4 +260,15 @@ textarea:focus {
   width: 90%;
   text-shadow: none;
   color: #ecdac9;
+}
+
+.demo-btn {
+  width: 400px;
+}
+
+.screenshot {
+  height: 500px;
+  width: 700px;
+  display: block;
+  margin: 30px auto;
 }
