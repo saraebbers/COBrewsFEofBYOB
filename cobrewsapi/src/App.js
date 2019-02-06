@@ -23,10 +23,6 @@ class App extends Component {
     }
   }
 
-  // { "name":"Avery Brewing Company","city":"Boulder","food":"yes","dog_friendly":"yes","outdoor_seating":"yes","website":"www.averybrewing.com" }
-
-
-
   handleSubmit = (e) => {
     e.preventDefault()
     let returnedURL = ''
