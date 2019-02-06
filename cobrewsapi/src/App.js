@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
+import postBeer from './assets/post-beer.png'
+import deleteBeer from './assets/delete-beer.png'
+import patchBeer from './assets/patch-beer.png'
+import putBeer from './assets/put-beer.png'
+import putBrew from './assets/put-brew.png'
+import patchBrew from './assets/patch-brew.png'
+import postBrew from './assets/post-brew.png'
+import deleteBrew from './assets/delete-brew.png'
 
 
 class App extends Component {
@@ -7,50 +15,85 @@ class App extends Component {
     super();
     this.state = {
       returnedURL: '',
-      requestVerb: 'GET',
       error: '',
-      requestBody: '',
-      result: [],
+      fetchResult: [],
       responseStatus: '',
-      help: false
+      help: false,
+      imgPath: ''
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
     let returnedURL = ''
-    const requestBody = this.refs.textAreaSelect.value
-    const requestVerb = this.refs.verbSelect.value
     const url = this.refs.urlSelect.value
     const id = this.refs.idSelect.value ? `/${this.refs.idSelect.value}` : ''
-    const query = this.refs.querySelect.value ?  `?${this.refs.querySelect.value}=${this.refs.citySelect.value}` : ''
+    const query = this.refs.querySelect.value ?  `?${this.refs.querySelect.value}=${this.queryClean(this.refs.citySelect.value)}` : ''
     const subTable = this.refs.subTableSelect.value ? `/beers` : ''
     returnedURL = 'http://colorado-brews.herokuapp.com' + url + id + query + subTable
-    this.setState({error: '', result: [], requestVerb, returnedURL, requestBody, responseStatus: ''})
+    this.setState({error: '', fetchResult: [], returnedURL, responseStatus: ''})
+  }
+
+  queryClean = (givenStr) => {
+    let str = givenStr.toLowerCase()
+    let strArray = str.split('')
+    let capFirst =  strArray[0].toUpperCase()
+    strArray.shift()
+    strArray.unshift(capFirst)
+    const word = strArray.join('')
+    return word
   }
 
   fetchEndpoint = async() => {
     try {
-      let response;
-      if (this.state.requestVerb === 'GET' || 'DELETE') {
-        response = await fetch(this.state.returnedURL, {
-          method: this.state.requestVerb
-        })
-      } else {
-        response = await fetch(this.state.returnedURL, {
-          method: this.state.requestVerb,
-          body: this.state.requestBody
-        })
-      }
+      const response = await fetch(this.state.returnedURL)
       const result = await response.json()
-      this.setState({responseStatus: response.status, result})
+      console.log(result)
+      if (result.length > 1) {
+        this.setState({responseStatus: response.status, fetchResult: result})
+      } else {
+        this.setState({responseStatus: response.status, fetchResult: [...this.state.fetchResult, result]})
+      }
     } catch (error) {
-      this.setState({error})
+      this.setState({error: error.message})
     }
   }
 
   displayHelp = () => {
     this.setState({help: !this.state.help})
+  }
+
+  pickImg = (num) => {
+    let path;
+    switch(num) {
+      case 1:
+        path = putBrew
+        break
+      case 2:
+        path = putBeer
+        break
+      case 3:
+        path = patchBrew
+        break
+      case 4:
+        path = patchBeer
+        break
+      case 5:
+        path = postBrew
+        break
+      case 6:
+        path = postBeer
+        break
+      case 7:
+        path = deleteBrew
+        break
+      case 8:
+        path = deleteBeer
+        break
+      default:
+        path = '#'
+    }
+    this.setState({imgPath: path})
   }
 
   render() {
@@ -72,24 +115,13 @@ class App extends Component {
         <main>
           <section className="url-builder">
             <h3 className="url-builder-label">URL Builder</h3>
-            {help ? 'This section is for you to select the HTTP verb along with the available API path, the two available paths either will select data from the breweries database or the beers database.' : null}
+            {help ? 'This section is for selecting one of the two different api paths' : null}
             <form onSubmit={this.handleSubmit}>
-              <label className="top-dropdown">Endpoint Selection: </label>
-              <select className='verb-select' ref='verbSelect'>
-                <option value='GET'>GET</option>
-                <option value='POST'>POST</option>
-                <option value='PATCH'>PATCH</option>
-                <option value='PUT'>PUT</option>
-                <option value='DELETE'>DELETE</option>
-              </select>
+              <p>All live query endpoints are GET endpoints</p>
               <select className='url-select' ref='urlSelect'>
                 <option value='/api/breweries'>/api/breweries</option>
                 <option value='/api/beers'>/api/beers</option>
               </select>
-              <div className="json-container">
-                <label className="json-label">Required for POST/PUT/PATCH: </label>
-                <textarea rows="8" columns="100" placeholder="Enter JSON formated object here" ref="textAreaSelect"></textarea>
-              </div>
               <div>
                 <label>ID: </label>
                 <input className='id' placeholder='Optional' name='id' type='number' ref='idSelect'/>
@@ -100,8 +132,6 @@ class App extends Component {
                   <option value='' disabled selected>Optional</option>
                   <option value='city'>city</option>
                 </select>
-              </div>
-              <div>
                 <label>City: </label>
                 <input className='city-name' placeholder='Optional' name='cityName' type='text' ref='citySelect'/>
               </div>
@@ -109,7 +139,7 @@ class App extends Component {
                 <p>{help ? 'This section will only fetch data successfully if the GET beers endpoint is selected with a valid associated brewery id:' : null}</p>
                 <label>Beers by brewery id selector: </label>
                 <select className='table-select' ref='subTableSelect'>
-                  <option value='' disabled selected>none</option>
+                  <option value=''>none</option>
                   <option value='beers'>beers</option>
                 </select>
               </div>
@@ -129,14 +159,26 @@ class App extends Component {
             <div className="response-div">
               <h2 className="response-label">Response:</h2>
               <p className="response-status">Status Code: {this.state.responseStatus}</p>
-                {this.state.result.length ? this.state.result.map(i => {
-                  return <p key={i.name} className="response-p">{JSON.stringify(i)}</p>
+                {this.state.fetchResult.length ? this.state.fetchResult.map(result => {
+                  return <p key={result.name} className="response-p">{JSON.stringify(result)}</p>
                 }) : null}
               <div>
                 {this.state.error ? this.state.error.message : null}
               </div>
             </div>
           </section>
+          <div className="alternate-request-div">
+            <p>The following are examples of various PUT/PATCH/POST/DELETE endpoints. Click on each button for an example of what would be returned</p>
+            <button className="demo-btn" onClick={() => this.pickImg(1)}>PUT: http://colorado-brews.herokuapp.com/api/breweries</button>
+            <button className="demo-btn" onClick={() => this.pickImg(2)}>PUT: http://colorado-brews.herokuapp.com/api/beers</button>
+            <button className="demo-btn" onClick={() => this.pickImg(3)}>PATCH: http://colorado-brews.herokuapp.com/api/breweries</button>
+            <button className="demo-btn" onClick={() => this.pickImg(4)}>PATCH: http://colorado-brews.herokuapp.com/api/beers</button>
+            <button className="demo-btn" onClick={() => this.pickImg(5)}>POST: http://colorado-brews.herokuapp.com/api/breweries</button>
+            <button className="demo-btn" onClick={() => this.pickImg(6)}>POST: http://colorado-brews.herokuapp.com/api/beers</button>
+            <button className="demo-btn" onClick={() => this.pickImg(7)}>DELETE: http://colorado-brews.herokuapp.com/api/breweries</button>
+            <button className="demo-btn" onClick={() => this.pickImg(8)}>DELETE: http://colorado-brews.herokuapp.com/api/beers</button>
+            {this.state.imgPath ? <img className="screenshot" src={this.state.imgPath} alt="Screenshot of endpoint"/> : null }
+          </div>
         </main>
       </div>
     );
