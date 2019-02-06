@@ -16,6 +16,10 @@ class App extends Component {
     }
   }
 
+  // { "name":"Avery Brewing Company","city":"Boulder","food":"yes","dog_friendly":"yes","outdoor_seating":"yes","website":"www.averybrewing.com" }
+
+
+
   handleSubmit = (e) => {
     e.preventDefault()
     let returnedURL = ''
@@ -30,6 +34,7 @@ class App extends Component {
   }
 
   fetchEndpoint = async() => {
+    console.log(JSON.stringify(this.state.requestBody))
     try {
       let response;
       if (this.state.requestVerb === 'GET' || 'DELETE') {
