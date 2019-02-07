@@ -2,6 +2,10 @@
   "name": "cobrewsapi",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.4.0",
+    "node": "10.5.0"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "path": "^0.12.7",
