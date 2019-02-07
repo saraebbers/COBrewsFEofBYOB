@@ -1,0 +1,21 @@
+{
+  "main.css": "/static/css/main.9a0b90a0.chunk.css",
+  "main.js": "/static/js/main.32463077.chunk.js",
+  "main.js.map": "/static/js/main.32463077.chunk.js.map",
+  "static/js/1.2f64cd8d.chunk.js": "/static/js/1.2f64cd8d.chunk.js",
+  "static/js/1.2f64cd8d.chunk.js.map": "/static/js/1.2f64cd8d.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
+  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
+  "static/media/post-beer.png": "/static/media/post-beer.35d84a95.png",
+  "static/media/patch-beer.png": "/static/media/patch-beer.92e8b12c.png",
+  "static/media/put-beer.png": "/static/media/put-beer.6a0fd28c.png",
+  "static/media/put-brew.png": "/static/media/put-brew.33912730.png",
+  "static/media/patch-brew.png": "/static/media/patch-brew.293d8c84.png",
+  "static/media/post-brew.png": "/static/media/post-brew.58f102bd.png",
+  "static/media/delete-brew.png": "/static/media/delete-brew.993db814.png",
+  "static/media/delete-beer.png": "/static/media/delete-beer.f0834631.png",
+  "static/css/main.9a0b90a0.chunk.css.map": "/static/css/main.9a0b90a0.chunk.css.map",
+  "index.html": "/index.html",
+  "precache-manifest.32a16a1d415d6e034c01d8452ecaa197.js": "/precache-manifest.32a16a1d415d6e034c01d8452ecaa197.js",
+  "service-worker.js": "/service-worker.js"
+}
